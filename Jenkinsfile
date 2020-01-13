@@ -44,13 +44,13 @@ pipeline {
             }
         }
 
-         stage('Pa11y') {
-            steps {
-                 sh 'ls -a'
-                sh 'pa11y-ci --config .pa11yci.json'
-            }
+        //  stage('Pa11y') {
+        //     steps {
+        //          sh 'ls -a'
+        //         sh 'pa11y-ci --config .pa11yci.json'
+        //     }
 
-        }
+        // }
 
         // stage('SonarQube analysis') {
         //     tools {   
