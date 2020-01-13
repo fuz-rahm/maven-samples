@@ -53,15 +53,6 @@ pipeline {
         }
 
         stage('SonarQube analysis') {
-      
-            steps {
-                withSonarQubeEnv('SonarQube Scanner') {
-                sh 'sonar-scanner'
-                }   
-            }
-        }
-
-        stage('SonarQube analysis') {
             tools {   
                 sonarQube 'SonarQube Scanner 4.8'
             }
