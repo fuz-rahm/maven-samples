@@ -28,13 +28,22 @@ pipeline {
                 sh 'mvn clean verify'
             }
         }
-        stage ('Lighthouse'){
+
+        stage {
             steps{
-                sh 'lighthouse-batch -s https://cynerge.com'
-                sh 'ls report/lighthouse'
-                lighthouseReport './report/lighthouse/cynerge_com.report.json'
+                sh label: '', script: 'lighthouse --quiet --no-update-notifier --no-enable-error-reporting --output=json --output-path=./lighthouse-report.json --chrome-flags="--headless" https://www.cynerge.com'
+
+       lighthouseReport 'lighthouse-report.json'
+
             }
         }
+        //stage ('Lighthouse'){
+            //steps{
+                //sh 'lighthouse-batch -s https://cynerge.com'
+                //sh 'ls report/lighthouse'
+                //lighthouseReport './report/lighthouse/cynerge_com.report.json'
+            //}
+        //}
 
         stage('build') {
             steps {
