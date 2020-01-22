@@ -29,7 +29,7 @@ pipeline {
             }
         }
 
-        stage {
+        stage('508'){
             steps{
                 sh label: '', script: 'lighthouse --quiet --no-update-notifier --no-enable-error-reporting --output=json --output-path=./lighthouse-report.json --chrome-flags="--headless" https://www.cynerge.com'
 
