@@ -29,14 +29,18 @@ pipeline {
             }
         }
 
-        stage('508'){
-            steps{
-                sh label: '', script: 'lighthouse --quiet --no-update-notifier --no-enable-error-reporting --output=json --output-path=./lighthouse-report.json --chrome-flags="--headless" https://cynerge.com'
+       
+        stage('508 Testing'){
+            steps {
+                script {
+                    sh 'rm -rf pa11y'
 
-       lighthouseReport 'lighthouse-report.json'
-
+                    sh 'mkdir pa11y'
+                    sh label: '', returnStdout: true, script: 'sh runpa11y.sh'
+                     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '', reportFiles: 'pa11y/index.html', reportName: '508 Testing Report', reportTitles: '508 Accessibility Report'])
+                }
             }
-        }
+         }
         //stage ('Lighthouse'){
             //steps{
                 //sh 'lighthouse-batch -s https://cynerge.com'
@@ -53,24 +57,7 @@ pipeline {
             }
         }
 
-        //  stage('Pa11y') {
-        //     steps {
-        //          sh 'ls -a'
-        //         sh 'pa11y-ci --config .pa11yci.json'
-        //     }
-
-        // }
-
-        // stage('SonarQube analysis') {
-        //     tools {   
-        //         sonarQube 'SonarQube Scanner 4.8'
-        //     }
-        //     steps {
-        //         withSonarQubeEnv('SonarQube Scanner') {
-        //         sh 'sonar-scanner'
-        //         }
-        //     }
-        // }
+        
     }
 
     post {
