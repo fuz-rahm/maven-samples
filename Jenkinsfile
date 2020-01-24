@@ -19,15 +19,15 @@ pipeline {
         stage('Checkout from Github') {
         
             steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/mr/addpa11y-ci']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/fuz-rahm/simple-java-maven-app.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/mr/addpa11y-ci']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/fuz-rahm/puppet-pipeline-test.git']]])
             }
         }
 
-        stage ('Unit Test') {
-            steps{
-                sh 'mvn clean verify'
-            }
-        }
+        //stage ('Unit Test') {
+            //steps{
+                //sh 'mvn clean verify'
+            //}
+        //}
 
        
         stage('508 Testing'){
