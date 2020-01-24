@@ -23,11 +23,6 @@ pipeline {
             }
         }
 
-        //stage ('Unit Test') {
-            //steps{
-                //sh 'mvn clean verify'
-            //}
-        //}
 
        
         stage('508 Testing'){
@@ -41,24 +36,8 @@ pipeline {
                 }
             }
          }
-        stage ('Lighthouse'){
-            steps{
-                sh 'lighthouse-batch -s https://google.com'
-                sh 'ls report/lighthouse'
-                lighthouseReport './report/lighthouse/cynerge_com.report.json'
-            }
-        }
 
-        stage('build') {
-            steps {
-                sh 'echo "path: ${PATH}"'
-                sh 'echo "M2_HOME: ${M2_HOME}"'
-                sh 'mvn clean install -Dmaven.test.failure.ignore=true'
-            }
-        }
-
-
-        stage('Performance Tests') {
+          stage('Performance Tests') {
             agent {
             label 'master'
             }
@@ -73,9 +52,35 @@ pipeline {
                 }
         }
 
+      
+
+        stage('build') {
+            steps {
+                sh 'echo "path: ${PATH}"'
+                sh 'echo "M2_HOME: ${M2_HOME}"'
+                sh 'mvn clean install -Dmaven.test.failure.ignore=true'
+            }
+        }
+
+
 
         
     }
+
+    post {
+        always {
+            publishHTML (target: [
+            allowMissing: false,
+            alwaysLinkToLastBuild: false,
+            keepAll: true,
+            reportDir: '.',
+            reportFiles: 'lighthouse-report.html',
+            reportName: "Lighthouse"
+            ])
+        }
+    }
+
+    
 
     post {
         always {
@@ -93,18 +98,7 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            publishHTML (target: [
-            allowMissing: false,
-            alwaysLinkToLastBuild: false,
-            keepAll: true,
-            reportDir: '.',
-            reportFiles: 'lighthouse-report.html',
-            reportName: "Lighthouse"
-            ])
-        }
-    }
+    
 
 
     
