@@ -57,6 +57,23 @@ pipeline {
             }
         }
 
+
+        stage('Performance Tests') {
+            agent {
+            label 'master'
+            }
+            when {
+              branch 'master'
+            }
+             steps {
+                  deleteDir()
+                  checkout scm
+                  sh 'npm install'
+                    sh 'npm run lighthouse'
+                }
+        }
+
+
         
     }
 
@@ -74,6 +91,21 @@ pipeline {
         unstable {
             mail to:"jenkinsemailnotification31@gmail.com", subject:"UNSTABLE: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", body: "Huh, we're unstable."
         }
-    }     
+    }
+
+    post {
+        always {
+            publishHTML (target: [
+            allowMissing: false,
+            alwaysLinkToLastBuild: false,
+            keepAll: true,
+            reportDir: '.',
+            reportFiles: 'lighthouse-report.html',
+            reportName: "Lighthouse"
+            ])
+        }
+    }
+
+
     
 }
