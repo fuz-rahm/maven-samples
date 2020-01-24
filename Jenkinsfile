@@ -41,13 +41,13 @@ pipeline {
                 }
             }
          }
-        //stage ('Lighthouse'){
-            //steps{
-                //sh 'lighthouse-batch -s https://cynerge.com'
-                //sh 'ls report/lighthouse'
-                //lighthouseReport './report/lighthouse/cynerge_com.report.json'
-            //}
-        //}
+        stage ('Lighthouse'){
+            steps{
+                sh 'lighthouse-batch -s https://google.com'
+                sh 'ls report/lighthouse'
+                lighthouseReport './report/lighthouse/cynerge_com.report.json'
+            }
+        }
 
         stage('build') {
             steps {
